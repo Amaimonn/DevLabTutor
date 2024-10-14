@@ -23,8 +23,8 @@ namespace mBuilding.Scripts
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutostartGame()
         {
-            Application.targetFrameRate = 60;
-            Screen.sleepTimeout = SleepTimeout.NeverSleep;
+            //Application.targetFrameRate = 60;
+            //Screen.sleepTimeout = SleepTimeout.NeverSleep;
             
             _instance = new GameEntryPoint();
             _instance.RunGame();
