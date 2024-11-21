@@ -12,6 +12,7 @@ namespace mBuilding.Scripts.Game.Gameplay.View.Buildings
         public readonly int BuildingEntityId;
         public readonly string TypeId;
         public ReadOnlyReactiveProperty<Vector3Int> Position { get; }
+        public ReadOnlyReactiveProperty<int> Level { get; }
 
         private readonly BuildingEntityProxy _buildingEntity;
         private readonly BuildingSettings _buildingSettings;
@@ -24,6 +25,7 @@ namespace mBuilding.Scripts.Game.Gameplay.View.Buildings
         {
             BuildingEntityId = buildingEntity.Id;
             TypeId = buildingEntity.TypeId;
+            Level = buildingEntity.Level;
             
             _buildingEntity = buildingEntity;
             _buildingSettings = buildingSettings;

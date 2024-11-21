@@ -1,10 +1,12 @@
-﻿using BaCon;
+﻿using System.Linq;
+using BaCon;
 using mBuilding.Scripts.Game.Gameplay.Commands;
 using mBuilding.Scripts.Game.Gameplay.Root.View;
 using mBuilding.Scripts.Game.Gameplay.Services;
 using mBuilding.Scripts.Game.MainMenu.Root;
 using mBuilding.Scripts.Game.State;
 using mBuilding.Scripts.Game.State.cmd;
+using mBuilding.Scripts.Game.State.Root;
 using ObservableCollections;
 using R3;
 using UnityEngine;
@@ -26,25 +28,25 @@ namespace mBuilding.Scripts.Game.Gameplay.Root
             
             ///
             
-            gameStateProvider.GameState.Buildings.ObserveAdd().Subscribe(e =>
+            gameStateProvider.GameState.Maps.ObserveAdd().Subscribe(e =>
                 {
                     var building = e.Value;
-                    Debug.Log("Building placed. Type id: " +
-                              building.TypeId
-                              + " Id: " + building.Id
-                              + ", Position: " +
-                              building.Position.Value);
+                    // Debug.Log("Building placed. Type id: " +
+                    //           building.TypeId
+                    //           + " Id: " + building.Id
+                    //           + ", Position: " +
+                    //           building.Position.Value);
                 }
             );
             
             /// 
 
 
-            var buildingsService = gameplayContainer.Resolve<BuildingsService>();
+            // var buildingsService = gameplayContainer.Resolve<BuildingsService>();
             
-            buildingsService.PlaceBuilding("dummy", GetRandomPosition());
-            buildingsService.PlaceBuilding("dummy", GetRandomPosition());
-            buildingsService.PlaceBuilding("dummy", GetRandomPosition());
+            // buildingsService.PlaceBuilding("dummy", GetRandomPosition());
+            // buildingsService.PlaceBuilding("dummy", GetRandomPosition());
+            // buildingsService.PlaceBuilding("dummy", GetRandomPosition());
             
             /// 
             
@@ -60,7 +62,7 @@ namespace mBuilding.Scripts.Game.Gameplay.Root
             var exitSceneSignalSubj = new Subject<Unit>();
             uiScene.Bind(exitSceneSignalSubj);
 
-            Debug.Log($"GAMEPLAY ENTRY POINT: save file name = {enterParams.SaveFileName}, level to load = {enterParams.LevelNumber}");
+            Debug.Log($"GAMEPLAY ENTRY POINT: level to load = {enterParams.MapId}");
             
             var mainMenuEnterParams = new MainMenuEnterParams("Fatality");
             var exitParams = new GameplayExitParams(mainMenuEnterParams);

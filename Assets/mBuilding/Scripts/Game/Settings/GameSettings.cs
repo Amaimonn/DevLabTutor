@@ -8,5 +8,6 @@ namespace mBuilding.Scripts.Game.Settings
     public class GameSettings : ScriptableObject
     {
         public BuildingsSettings BuildingsSettings;
+        public MapsSettings MapsSettings;
     }
 }

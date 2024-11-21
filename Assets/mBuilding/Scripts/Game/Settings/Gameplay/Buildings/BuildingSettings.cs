@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace mBuilding.Scripts.Game.Settings.Gameplay.Buildings
 {
-    [CreateAssetMenu(fileName = "BuildingSettings", menuName = "Scriptable Objects/Settings/BuildingSettings")]
+    [CreateAssetMenu(fileName = "BuildingSettings", menuName = "Scriptable Objects/Settings/Building Settings")]
     public class BuildingSettings : ScriptableObject
     {
         public string TypeId;
