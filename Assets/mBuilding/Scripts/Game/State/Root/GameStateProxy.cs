@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using mBuilding.Scripts.Game.State.Buildings;
+using mBuilding.Scripts.Game.State.GameResources;
 using mBuilding.Scripts.Game.State.Maps;
 using ObservableCollections;
 using R3;
@@ -11,10 +11,25 @@ namespace mBuilding.Scripts.Game.State.Root
         private readonly GameState _gameState;
         public readonly ReactiveProperty<int> CurrentMapId = new();
         public ObservableList<Map> Maps { get; } = new();
+        public ObservableList<Resource> Resources { get; } = new();
 
         public GameStateProxy(GameState gameState)
         {
             _gameState = gameState;
+
+            InitMaps(gameState);
+            InitResources(gameState);
+
+            CurrentMapId.Subscribe(e => _gameState.CurrentMapId = e);
+        }
+
+        public int CreateEntityId()
+        {
+            return _gameState.CreateEntityId();
+        }
+
+        private void InitMaps(GameState gameState)
+        {
             gameState.Maps.ForEach(mapOrigin => Maps.Add(new Map(mapOrigin)));
             
             Maps.ObserveAdd().Subscribe(e =>
@@ -29,13 +44,25 @@ namespace mBuilding.Scripts.Game.State.Root
                 var removedMapState = gameState.Maps.FirstOrDefault(b => b.Id == removedMap.Id);
                 gameState.Maps.Remove(removedMapState);
             });
-
-            CurrentMapId.Subscribe(e => _gameState.CurrentMapId = e);
         }
 
-        public int CreateEntityId()
+        private void InitResources(GameState gameState)
         {
-            return _gameState.CreateEntityId();
+            gameState.Resources.ForEach(resourceOrigin => Resources.Add(new Resource(resourceOrigin)));
+            
+            Resources.ObserveAdd().Subscribe(e =>
+            {
+                var addedResource = e.Value;
+                gameState.Resources.Add(addedResource.Origin);
+            });
+            
+            Resources.ObserveRemove().Subscribe(e =>
+            {
+                var removedResource = e.Value;
+                var removedResourceOrigin = gameState.Resources
+                    .FirstOrDefault(b => b.ResourceType == removedResource.ResourceType);
+                gameState.Resources.Remove(removedResourceOrigin);
+            });
         }
     }
 }

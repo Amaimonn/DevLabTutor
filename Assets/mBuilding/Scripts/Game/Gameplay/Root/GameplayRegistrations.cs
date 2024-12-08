@@ -17,12 +17,12 @@ namespace mBuilding.Scripts.Game.Gameplay.Root
             var gameState = gameStateProvider.GameState;
             var settingsProvider = container.Resolve<ISettingsProvider>();
             var gameSettings = settingsProvider.GameSettings;
-            
-
             var cmd = new CommandProcessor(gameStateProvider);
             
             cmd.RegisterHandler(new CmdPlaceBuildingHandler(gameState));
             cmd.RegisterHandler(new CmdCreateMapStateHandler(gameState, gameSettings));
+            cmd.RegisterHandler(new CmdResourcesAddHandler(gameState));
+            cmd.RegisterHandler(new CmdResourcesSpendHandler(gameState));
             container.RegisterInstance<ICommandProcessor>(cmd);
 
             var loadingMapId = gameplayEnterParams.MapId;

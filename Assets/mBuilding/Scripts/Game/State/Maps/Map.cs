@@ -10,6 +10,7 @@ namespace mBuilding.Scripts.Game.State.Maps
         public int Id => Origin.Id;
         public ObservableList<BuildingEntityProxy> Buildings { get; } = new();
         public MapState Origin { get; }
+
         public Map(MapState mapState)
         {
             Origin = mapState;
