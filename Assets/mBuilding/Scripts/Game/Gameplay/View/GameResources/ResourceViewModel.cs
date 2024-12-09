@@ -1,5 +1,5 @@
-using mBuilding.Scripts.Game.State.GameResources;
 using R3;
+using mBuilding.Scripts.Game.State.GameResources;
 
 namespace mBuilding.Scripts.Game.Gameplay.View.GameResources
 {

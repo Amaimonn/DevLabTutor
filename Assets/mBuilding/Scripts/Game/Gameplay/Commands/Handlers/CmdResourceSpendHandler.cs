@@ -1,7 +1,6 @@
 using System.Linq;
 using mBuilding.Scripts.Game.State.cmd;
 using mBuilding.Scripts.Game.State.Root;
-using mBuilding.Scripts.Game.State.GameResources;
 using UnityEngine;
 
 namespace mBuilding.Scripts.Game.Gameplay.Commands
@@ -28,7 +27,9 @@ namespace mBuilding.Scripts.Game.Gameplay.Commands
             
             if (requiredResource.Amount.Value < command.Amount)
             {
-                Debug.LogError($"Trying to spend more than existed ({requiredResourceType}). Exists: {requiredResource.Amount.Value}");
+                Debug.LogError(@$"Trying to spend more than existed ({requiredResourceType}). 
+                    Exists: {requiredResource.Amount.Value}, trying to spend: {command.Amount}");
+                return false;
             }
 
             requiredResource.Amount.Value -= command.Amount;

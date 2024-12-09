@@ -41,11 +41,18 @@ namespace mBuilding.Scripts.Game.Gameplay.Root
                 loadingMap = gameStateProvider.GameState.Maps.FirstOrDefault(x => x.Id == loadingMapId);
             }
             
-            container.RegisterFactory(_ => new BuildingsService(
-                loadingMap.Buildings, 
-                gameSettings.BuildingsSettings, 
-                cmd)
-            ).AsSingle();
+            container
+                .RegisterFactory(_ => new BuildingsService(
+                    loadingMap.Buildings, 
+                    gameSettings.BuildingsSettings, 
+                    cmd))
+                .AsSingle();
+
+            container
+                .RegisterFactory(_ => new ResourcesService(
+                    gameState.Resources, 
+                    cmd))
+                .AsSingle();
         }
     }
 }

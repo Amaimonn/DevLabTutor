@@ -30,7 +30,10 @@ namespace mBuilding.Scripts.Game.State.Root
 
         private void InitMaps(GameState gameState)
         {
-            gameState.Maps.ForEach(mapOrigin => Maps.Add(new Map(mapOrigin)));
+            foreach (var mapOrigin in gameState.Maps)
+            {
+                Maps.Add(new Map(mapOrigin));
+            }
             
             Maps.ObserveAdd().Subscribe(e =>
             {
@@ -48,7 +51,10 @@ namespace mBuilding.Scripts.Game.State.Root
 
         private void InitResources(GameState gameState)
         {
-            gameState.Resources.ForEach(resourceOrigin => Resources.Add(new Resource(resourceOrigin)));
+            foreach (var resourceOrigin in  gameState.Resources)
+            {
+                Resources.Add(new Resource(resourceOrigin));
+            }
             
             Resources.ObserveAdd().Subscribe(e =>
             {

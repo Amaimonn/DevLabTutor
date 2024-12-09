@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
+using ObservableCollections;
+using R3;
 using mBuilding.Scripts.Game.Gameplay.Commands;
 using mBuilding.Scripts.Game.Gameplay.View.Buildings;
 using mBuilding.Scripts.Game.Settings.Gameplay.Buildings;
 using mBuilding.Scripts.Game.State.Buildings;
 using mBuilding.Scripts.Game.State.cmd;
-using ObservableCollections;
-using R3;
-using UnityEngine;
 
 namespace mBuilding.Scripts.Game.Gameplay.Services
 {
