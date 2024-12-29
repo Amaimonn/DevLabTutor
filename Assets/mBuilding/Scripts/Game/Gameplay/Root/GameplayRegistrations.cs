@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using BaCon;
+using R3;
+using mBuilding.Scripts.Game.Common;
 using mBuilding.Scripts.Game.Gameplay.Commands;
 using mBuilding.Scripts.Game.Gameplay.Services;
 using mBuilding.Scripts.Game.Settings;
@@ -18,6 +20,8 @@ namespace mBuilding.Scripts.Game.Gameplay.Root
             var settingsProvider = container.Resolve<ISettingsProvider>();
             var gameSettings = settingsProvider.GameSettings;
             var cmd = new CommandProcessor(gameStateProvider);
+
+            container.RegisterInstance(AppConstants.EXIT_SCENE_REQUEST_TAG, new Subject<Unit>());
             
             cmd.RegisterHandler(new CmdPlaceBuildingHandler(gameState));
             cmd.RegisterHandler(new CmdCreateMapStateHandler(gameState, gameSettings));
