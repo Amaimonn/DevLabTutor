@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using mBuilding.Scripts.Game.State.Buildings;
+using mBuilding.Scripts.Game.State.Entities;
 
 namespace mBuilding.Scripts.Game.State.Maps
 {
@@ -9,6 +9,6 @@ namespace mBuilding.Scripts.Game.State.Maps
     public class MapState
     {
         public int Id;
-        public List<BuildingEntity> Buildings;
+        public List<EntityState> Entities;
     }
 }

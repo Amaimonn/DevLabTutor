@@ -3,6 +3,7 @@ using ObservableCollections;
 using R3;
 using UnityEngine;
 using Random = UnityEngine.Random;
+
 using mBuilding.Scripts.Game.Gameplay.Services;
 using mBuilding.Scripts.Game.Gameplay.View.Buildings;
 using mBuilding.Scripts.Game.State.GameResources;
@@ -15,9 +16,9 @@ namespace mBuilding.Scripts.Game.Gameplay.Root.View
 
         private readonly ResourcesService _resourceService;
 
-        public WorldGameplayRootViewModel(BuildingsService buildingsService, ResourcesService resourcesService)
+        public WorldGameplayRootViewModel(/*BuildingsService buildingsService, */ResourcesService resourcesService)
         {
-            AllBuildings = buildingsService.AllBuildings;
+            // AllBuildings = buildingsService.AllBuildings;
             _resourceService = resourcesService;
 
             resourcesService.ObserveResource(ResourceType.SoftCurrency)

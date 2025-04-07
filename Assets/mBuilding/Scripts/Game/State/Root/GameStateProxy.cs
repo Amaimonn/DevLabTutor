@@ -10,7 +10,7 @@ namespace mBuilding.Scripts.Game.State.Root
     {
         private readonly GameState _gameState;
         public readonly ReactiveProperty<int> CurrentMapId = new();
-        public ObservableList<Map> Maps { get; } = new();
+        public ObservableList<MapModel> Maps { get; } = new();
         public ObservableList<Resource> Resources { get; } = new();
 
         public GameStateProxy(GameState gameState)
@@ -32,7 +32,7 @@ namespace mBuilding.Scripts.Game.State.Root
         {
             foreach (var mapOrigin in gameState.Maps)
             {
-                Maps.Add(new Map(mapOrigin));
+                Maps.Add(new MapModel(mapOrigin));
             }
             
             Maps.ObserveAdd().Subscribe(e =>

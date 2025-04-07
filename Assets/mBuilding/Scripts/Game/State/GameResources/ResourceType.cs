@@ -4,5 +4,6 @@ namespace mBuilding.Scripts.Game.State.GameResources
     {
         SoftCurrency = 1<<0,
         HardCurrency = 1<<1,
+        Wood = 1<<2
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using mBuilding.Scripts.Game.State.Buildings;
+using UnityEngine;
+using R3;
+using Newtonsoft.Json;
+
 using mBuilding.Scripts.Game.State.GameResources;
 using mBuilding.Scripts.Game.State.Maps;
 using mBuilding.Scripts.Game.State.Root;
-using R3;
-using UnityEngine;
 
 namespace mBuilding.Scripts.Game.State
 {
@@ -21,18 +22,23 @@ namespace mBuilding.Scripts.Game.State
         
         public Observable<GameStateProxy> LoadGameState()
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple
+            };
+            
             if (!PlayerPrefs.HasKey(GAME_STATE_KEY))
             {
                 GameState = CreateGameStateFromSettings();
-                Debug.Log("Game State created from settings: " + JsonUtility.ToJson(_gameStateOrigin, true));
+                Debug.Log("Game State created from settings: " + JsonConvert.SerializeObject(_gameStateOrigin, Formatting.Indented));
 
-                SaveGameState();    // Сохраним дефолтное состояние
+                SaveGameState();
             }
             else
             {
-                // Загружаем
                 var json = PlayerPrefs.GetString(GAME_STATE_KEY);
-                _gameStateOrigin = JsonUtility.FromJson<GameState>(json);
+                _gameStateOrigin = JsonConvert.DeserializeObject<GameState>(json);
                 GameState = new GameStateProxy(_gameStateOrigin);
                 
                 Debug.Log("Game State loaded: " + json);
@@ -47,13 +53,12 @@ namespace mBuilding.Scripts.Game.State
             {
                 SettingsState = CreateGameSettingsStateFromSettings();
                 
-                SaveSettingsState();    // Сохраним дефолтное состояние
+                SaveSettingsState();
             }
             else
             {
-                // Загружаем
                 var json = PlayerPrefs.GetString(GAME_SETTINGS_STATE_KEY);
-                _gameSettingsStateOrigin = JsonUtility.FromJson<GameSettingsState>(json);
+                _gameSettingsStateOrigin = JsonConvert.DeserializeObject<GameSettingsState>(json);
                 SettingsState = new GameSettingsStateProxy(_gameSettingsStateOrigin);
             }
 
@@ -62,7 +67,7 @@ namespace mBuilding.Scripts.Game.State
 
         public Observable<bool> SaveGameState()
         {
-            var json = JsonUtility.ToJson(_gameStateOrigin, true);
+            var json = JsonConvert.SerializeObject(_gameStateOrigin, Formatting.Indented);
             PlayerPrefs.SetString(GAME_STATE_KEY, json);
 
             return Observable.Return(true);
@@ -70,7 +75,7 @@ namespace mBuilding.Scripts.Game.State
         
         public Observable<bool> SaveSettingsState()
         {
-            var json = JsonUtility.ToJson(_gameSettingsStateOrigin, true);
+            var json = JsonConvert.SerializeObject(_gameSettingsStateOrigin, Formatting.Indented);
             PlayerPrefs.SetString(GAME_SETTINGS_STATE_KEY, json);
 
             return Observable.Return(true);
@@ -94,14 +99,14 @@ namespace mBuilding.Scripts.Game.State
         
         private GameStateProxy CreateGameStateFromSettings()
         {
-            // Состояние по умолчанию из настроек, мы делаем фейк
             _gameStateOrigin = new GameState
             {
                 Maps = new List<MapState>(),
                 Resources = new List<ResourceData>()
                 {
-                    new() { ResourceType = ResourceType.SoftCurrency, Amount = 0 },
-                    new() { ResourceType = ResourceType.HardCurrency, Amount = 0 }
+                    new() { Amount = 0, ResourceType = ResourceType.SoftCurrency },
+                    new() { Amount = 0, ResourceType = ResourceType.HardCurrency },
+                    new() { Amount = 0, ResourceType = ResourceType.Wood }
                 }
             };
                 
@@ -110,7 +115,6 @@ namespace mBuilding.Scripts.Game.State
         
         private GameSettingsStateProxy CreateGameSettingsStateFromSettings()
         {
-            // Состояние по умолчанию из настроек, мы делаем фейк
             _gameSettingsStateOrigin = new GameSettingsState()
             {
                 MusicVolume = 8,

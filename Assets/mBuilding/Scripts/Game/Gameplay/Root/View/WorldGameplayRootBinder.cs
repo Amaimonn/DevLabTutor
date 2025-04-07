@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using mBuilding.Scripts.Game.Gameplay.View.Buildings;
+using UnityEngine;
 using ObservableCollections;
 using R3;
-using UnityEngine;
+
+using mBuilding.Scripts.Game.Gameplay.View.Buildings;
 
 namespace mBuilding.Scripts.Game.Gameplay.Root.View
 {
@@ -16,16 +17,16 @@ namespace mBuilding.Scripts.Game.Gameplay.Root.View
         {
             _viewModel = viewModel;
 
-            foreach (var buildingViewModel in viewModel.AllBuildings)
-            {
-                CreateBuilding(buildingViewModel);
-            }
+            // foreach (var buildingViewModel in viewModel.AllBuildings)
+            // {
+            //     CreateBuilding(buildingViewModel);
+            // }
 
-            _disposables.Add(viewModel.AllBuildings.ObserveAdd()
-                .Subscribe(e => CreateBuilding(e.Value)));
+            // _disposables.Add(viewModel.AllBuildings.ObserveAdd()
+            //     .Subscribe(e => CreateBuilding(e.Value)));
             
-            _disposables.Add(viewModel.AllBuildings.ObserveRemove()
-                .Subscribe(e => DestroyBuilding(e.Value)));
+            // _disposables.Add(viewModel.AllBuildings.ObserveRemove()
+            //     .Subscribe(e => DestroyBuilding(e.Value)));
         }
 
         private void OnDestroy()

@@ -1,11 +1,13 @@
 using System.Linq;
+using System.Collections.Generic;
 using UnityEngine;
+
 using mBuilding.Scripts.Game.Settings;
 using mBuilding.Scripts.Game.State.cmd;
 using mBuilding.Scripts.Game.State.Root;
-using System.Collections.Generic;
-using mBuilding.Scripts.Game.State.Buildings;
 using mBuilding.Scripts.Game.State.Maps;
+using mBuilding.Scripts.Game.State.Entities;
+using mBuilding.Scripts.Game.State.Entities.Mergeable.Buildings;
 
 namespace mBuilding.Scripts.Game.Gameplay.Commands
 {
@@ -32,27 +34,30 @@ namespace mBuilding.Scripts.Game.Gameplay.Commands
 
             var newMapSettings = _gameSettings.MapsSettings.AllMaps.First(x => x.MapId == command.MapId);
             var newMapInitialStateSettings = newMapSettings.InitialStateSettings;
-            var initialBuildings = new List<BuildingEntity>();
+            var initialEntities = new List<EntityState>();
 
-            foreach (var buildingSettints in newMapInitialStateSettings.Buildings)
+            foreach (var buildingSettings in newMapInitialStateSettings.Buildings)
             {
-                var initialBuilding = new BuildingEntity
+                var initialBuilding = new BuildingEntityState
                 {
-                    Id = _gameState.CreateEntityId(),
-                    TypeId = buildingSettints.TypeId,
-                    Position = buildingSettints.Position,
-                    Level = buildingSettints.Level
+                    UniqueId = _gameState.CreateEntityId(),
+                    ConfigId = buildingSettings.TypeId,
+                    Type = EntityType.Building,
+                    Position = buildingSettings.Position,
+                    Level = buildingSettings.Level,
+                    IsAutoCollectionEnabled = false,
+                    LastClickedTimeMS = 0
                 };
 
-                initialBuildings.Add(initialBuilding);
+                initialEntities.Add(initialBuilding);
             }
 
             var newMapState = new MapState
             {
                 Id = command.MapId,
-                Buildings = initialBuildings
+                Entities = initialEntities
             };
-            var newMap = new Map(newMapState);
+            var newMap = new MapModel(newMapState);
             
             _gameState.Maps.Add(newMap);
 

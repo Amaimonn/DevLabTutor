@@ -15,7 +15,7 @@ namespace mBuilding.Scripts.Game.Gameplay.Root.View
                 
             container
                 .RegisterFactory(c => new WorldGameplayRootViewModel(
-                    c.Resolve<BuildingsService>(), 
+                    // c.Resolve<BuildingsService>(), 
                     c.Resolve<ResourcesService>()))
                 .AsSingle();
         }
